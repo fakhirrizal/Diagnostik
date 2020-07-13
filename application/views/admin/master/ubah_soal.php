@@ -32,12 +32,13 @@
 					<form role="form" class="form-horizontal" action="<?=base_url('admin_side/perbarui_soal');?>" method="post" enctype='multipart/form-data'>
 						<input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>">
 						<input type="hidden" name="id" value="<?= md5($data_utama->id_soal); ?>">
+						<input type="hidden" name="id_kategori_soal" value="<?= $data_utama->id_kategori_soal; ?>">
 						<div class="form-body">
 							<div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">Pertanyaan <span class="required"> * </span></label>
 								<div class="col-md-10">
 									<div class="input-icon">
-										<textarea class="form-control" name="isi" rows='3' placeholder="Type something" required><?= $data_utama->pertanyaan; ?></textarea>
+										<textarea rows='3' class="form-control" name="isi" placeholder="Type something" required><?= $data_utama->pertanyaan; ?></textarea>
 										<div class="form-control-focus"> </div>
 										<span class="help-block">Some help goes here...</span>
 										<i class="icon-pin"></i>
@@ -68,79 +69,184 @@
 							</div>
 							<?php } ?>
 							<hr>
-							<div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Pilihan 1 <span class="required"> * </span></label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<input type="text" class="form-control" name="1" placeholder="Type something" value='<?= $data_utama->pilihan_1; ?>' required>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-pin"></i>
+							<?php
+							if($data_utama->id_kategori_soal=='0'){
+							?>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-2 control-label" for="form_control_1">Pilihan 1 <span class="required"> * </span></label>
+									<div class="col-md-10">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="1" placeholder="Type something" value='<?= $data_utama->pilihan_1; ?>' required>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Pilihan 2 <span class="required"> * </span></label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<input type="text" class="form-control" name="2" placeholder="Type something" value='<?= $data_utama->pilihan_2; ?>' required>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-pin"></i>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-2 control-label" for="form_control_1">Pilihan 2 <span class="required"> * </span></label>
+									<div class="col-md-10">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="2" placeholder="Type something" value='<?= $data_utama->pilihan_2; ?>' required>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Pilihan 3 </label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<input type="text" class="form-control" name="3" placeholder="Type something" value='<?= $data_utama->pilihan_3; ?>'>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-pin"></i>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-2 control-label" for="form_control_1">Pilihan 3 </label>
+									<div class="col-md-10">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="3" placeholder="Type something" value='<?= $data_utama->pilihan_3; ?>'>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Pilihan 4 </label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<input type="text" class="form-control" name="4" placeholder="Type something" value='<?= $data_utama->pilihan_4; ?>'>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-pin"></i>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-2 control-label" for="form_control_1">Pilihan 4 </label>
+									<div class="col-md-10">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="4" placeholder="Type something" value='<?= $data_utama->pilihan_4; ?>'>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Pilihan 5 </label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<input type="text" class="form-control" name="5" placeholder="Type something" value='<?= $data_utama->pilihan_5; ?>'>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-pin"></i>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-2 control-label" for="form_control_1">Pilihan 5 </label>
+									<div class="col-md-10">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="5" placeholder="Type something" value='<?= $data_utama->pilihan_5; ?>'>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
 									</div>
 								</div>
-							</div>
-							<hr>
-							<div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Jawaban <span class="required"> * </span></label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<select class="form-control" name="answer" required>
-											<option value=''>-- Pilih --</option>
-											<option value='A' <?php if($data_utama->jawaban=='A'){echo'selected';}else{echo'';} ?>>A</option>
-											<option value='B' <?php if($data_utama->jawaban=='B'){echo'selected';}else{echo'';} ?>>B</option>
-											<option value='C' <?php if($data_utama->jawaban=='C'){echo'selected';}else{echo'';} ?>>C</option>
-											<option value='D' <?php if($data_utama->jawaban=='D'){echo'selected';}else{echo'';} ?>>D</option>
-											<option value='E' <?php if($data_utama->jawaban=='E'){echo'selected';}else{echo'';} ?>>E</option>
-										</select>
-										<div class="form-control-focus"> </div>
-										<i class="icon-pin"></i>
+								<hr>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-2 control-label" for="form_control_1">Jawaban <span class="required"> * </span></label>
+									<div class="col-md-10">
+										<div class="input-icon">
+											<select class="form-control" name="answer" required>
+												<option value=''>-- Pilih --</option>
+												<option value='A' <?php if($data_utama->jawaban=='A'){echo'selected';}else{echo'';} ?>>A</option>
+												<option value='B' <?php if($data_utama->jawaban=='B'){echo'selected';}else{echo'';} ?>>B</option>
+												<option value='C' <?php if($data_utama->jawaban=='C'){echo'selected';}else{echo'';} ?>>C</option>
+												<option value='D' <?php if($data_utama->jawaban=='D'){echo'selected';}else{echo'';} ?>>D</option>
+												<option value='E' <?php if($data_utama->jawaban=='E'){echo'selected';}else{echo'';} ?>>E</option>
+											</select>
+											<div class="form-control-focus"> </div>
+											<i class="icon-pin"></i>
+										</div>
 									</div>
 								</div>
-							</div>
+							<?php }else{ ?>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-1 control-label" for="form_control_1">Soal 1 <span class="required"> * </span></label>
+									<div class="col-md-5">
+										<div class="input-icon">
+											<textarea rows='3' class="form-control" name="1" placeholder="Type something" required><?= $data_utama->pilihan_1; ?></textarea>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+									<label class="col-md-2 control-label" for="form_control_1">Jawaban 1 <span class="required"> * </span></label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="jawaban_1" placeholder="Type something" value='<?= $data_utama->jawaban_1; ?>' required>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+								</div>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-1 control-label" for="form_control_1">Soal 2 <span class="required"> * </span></label>
+									<div class="col-md-5">
+										<div class="input-icon">
+											<textarea rows='3' class="form-control" name="2" placeholder="Type something" required><?= $data_utama->pilihan_2; ?></textarea>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+									<label class="col-md-2 control-label" for="form_control_1">Jawaban 2 <span class="required"> * </span></label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="jawaban_2" placeholder="Type something" value='<?= $data_utama->jawaban_2; ?>' required>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+								</div>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-1 control-label" for="form_control_1">Soal 3 </label>
+									<div class="col-md-5">
+										<div class="input-icon">
+											<textarea rows='3' class="form-control" name="3" placeholder="Type something" ><?= $data_utama->pilihan_3; ?></textarea>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+									<label class="col-md-2 control-label" for="form_control_1">Jawaban 3 </label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="jawaban_3" placeholder="Type something" value='<?= $data_utama->jawaban_3; ?>'>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+								</div>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-1 control-label" for="form_control_1">Soal 4 </label>
+									<div class="col-md-5">
+										<div class="input-icon">
+											<textarea rows='3' class="form-control" name="4" placeholder="Type something" ><?= $data_utama->pilihan_4; ?></textarea>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+									<label class="col-md-2 control-label" for="form_control_1">Jawaban 4 </label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="jawaban_4" placeholder="Type something" value='<?= $data_utama->jawaban_4; ?>'>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+								</div>
+								<div class="form-group form-md-line-input has-danger">
+									<label class="col-md-1 control-label" for="form_control_1">Soal 5 </label>
+									<div class="col-md-5">
+										<div class="input-icon">
+											<textarea rows='3' class="form-control" name="5" placeholder="Type something" ><?= $data_utama->pilihan_5; ?></textarea>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+									<label class="col-md-2 control-label" for="form_control_1">Jawaban 5 </label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<input type="text" class="form-control" name="jawaban_5" placeholder="Type something" value='<?= $data_utama->jawaban_5; ?>'>
+											<div class="form-control-focus"> </div>
+											<span class="help-block">Some help goes here...</span>
+											<i class="icon-pin"></i>
+										</div>
+									</div>
+								</div>
+							<?php } ?>
 							<hr>
 							<div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">Alasan Menjawab 1 <span class="required"> * </span></label>

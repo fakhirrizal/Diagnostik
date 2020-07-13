@@ -14,7 +14,7 @@
                         </div> -->
                         <div >
                             <div class="panel-body">
-                                <h4><u>Jawaban</u></h4>
+                                <h4><u>Soal</u></h4>
                                 <p><?= $value->pertanyaan; ?></p>
                                 <?php
                                 if($value->image==NULL){
@@ -24,27 +24,64 @@
                                 <img src='<?= base_url().'data_upload/soal/'.$value->image; ?>' width='100%' />
                                 <br>
                                 <br>
-                                <?php } ?>
-                                <?php
-                                if($value->pilihan_1!=NULL){
-                                    echo'<p><b>A</b>           '.$value->pilihan_1.'</p>';
+                                <?php }
+                                if($value->id_kategori_soal=='0'){
+                                    echo'<h4><u>Pilihan Jawaban</u></h4>';
+                                    if($value->pilihan_1!=NULL){
+                                        echo'<p><b>A</b>           '.$value->pilihan_1.'</p>';
+                                    }
+                                    if($value->pilihan_2!=NULL){
+                                        echo'<p><b>B</b>           '.$value->pilihan_2.'</p>';
+                                    }
+                                    if($value->pilihan_3!=NULL){
+                                        echo'<p><b>C</b>           '.$value->pilihan_3.'</p>';
+                                    }
+                                    if($value->pilihan_4!=NULL){
+                                        echo'<p><b>D</b>           '.$value->pilihan_4.'</p>';
+                                    }
+                                    if($value->pilihan_5!=NULL){
+                                        echo'<p><b>E</b>           '.$value->pilihan_5.'</p>';
+                                    }
+                                    ?>
+                                    <hr>
+                                    <p>Jawaban Anda : <b><?= $value->pilihan_jawaban; ?></b> <?php if($value->pilihan_jawaban==$value->jawaban){echo '(Benar)';}else{echo '(Salah, jawaban yang benar adalah <b>'.$value->jawaban.'</b>)';} ?></p>
+                                    <?php
+                                }else{
+                                    if($value->pilihan_1!=NULL){
+                                        echo'<p>1. <b>'.$value->pilihan_1.'</b>      &rarr;      '.$value->jawaban_matching_1.' '.$this->Main_model->cek_jawaban_matching($value->id_soal,1,$value->jawaban_matching_1).'</p>';
+                                    }
+                                    if($value->pilihan_2!=NULL){
+                                        echo'<p>2. <b>'.$value->pilihan_2.'</b>      &rarr;      '.$value->jawaban_matching_2.' '.$this->Main_model->cek_jawaban_matching($value->id_soal,2,$value->jawaban_matching_2).'</p>';
+                                    }
+                                    if($value->pilihan_3!=NULL){
+                                        echo'<p>3. <b>'.$value->pilihan_3.'</b>      &rarr;      '.$value->jawaban_matching_3.' '.$this->Main_model->cek_jawaban_matching($value->id_soal,3,$value->jawaban_matching_3).'</p>';
+                                    }
+                                    if($value->pilihan_4!=NULL){
+                                        echo'<p>4. <b>'.$value->pilihan_4.'</b>      &rarr;      '.$value->jawaban_matching_4.' '.$this->Main_model->cek_jawaban_matching($value->id_soal,4,$value->jawaban_matching_4).'</p>';
+                                    }
+                                    if($value->pilihan_5!=NULL){
+                                        echo'<p>5. <b>'.$value->pilihan_5.'</b>      &rarr;      '.$value->jawaban_matching_5.' '.$this->Main_model->cek_jawaban_matching($value->id_soal,5,$value->jawaban_matching_5).'</p>';
+                                    }
+                                    echo'<hr>';
+                                    echo'<h4><u>Pilihan Jawaban</u></h4>';
+                                    if($value->random_pilihan_1!=NULL){
+                                        echo'<p><b>A.</b> '.$value->random_pilihan_1.'</p>';
+                                    }
+                                    if($value->random_pilihan_2!=NULL){
+                                        echo'<p><b>B.</b> '.$value->random_pilihan_2.'</p>';
+                                    }
+                                    if($value->random_pilihan_3!=NULL){
+                                        echo'<p><b>C.</b> '.$value->random_pilihan_3.'</p>';
+                                    }
+                                    if($value->random_pilihan_4!=NULL){
+                                        echo'<p><b>D.</b> '.$value->random_pilihan_4.'</p>';
+                                    }
+                                    if($value->random_pilihan_5!=NULL){
+                                        echo'<p><b>E.</b> '.$value->random_pilihan_5.'</p>';
+                                    }
+                                    echo'<hr>';
                                 }
-                                if($value->pilihan_2!=NULL){
-                                    echo'<p><b>B</b>           '.$value->pilihan_2.'</p>';
-                                }
-                                if($value->pilihan_3!=NULL){
-                                    echo'<p><b>C</b>           '.$value->pilihan_3.'</p>';
-                                }
-                                if($value->pilihan_4!=NULL){
-                                    echo'<p><b>D</b>           '.$value->pilihan_4.'</p>';
-                                }
-                                if($value->pilihan_5!=NULL){
-                                    echo'<p><b>E</b>           '.$value->pilihan_5.'</p>';
-                                }
-                                ?>
-                                <hr>
-                                <p>Jawaban peserta : <b><?= $value->pilihan_jawaban; ?></b> <?php if($value->pilihan_jawaban==$value->jawaban){echo '(Benar)';}else{echo '(Salah, jawaban yang benar adalah <b>'.$value->jawaban.'</b>)';} ?></p>
-                                <p>Keyakinan peserta terhadap jawaban : <?php if($value->keyakinan_1){echo'Yakin';}else{echo'Tidak Yakin';} ?></p>
+                                ?><p>Keyakinan peserta terhadap jawaban : <?php if($value->keyakinan_1){echo'Yakin';}else{echo'Tidak Yakin';} ?></p>
                                 <hr>
                                 <h4><u>Alasan</u></h4>
                                 <?php

@@ -6,20 +6,21 @@ class Report extends CI_Controller {
         parent::__construct();
     }
     /* Modul */
-    public function detail_jawaban_ujian(){
+    public function detail_jawaban_ujian()
+    {
         $getdata = $this->Main_model->getSelectedData('siswa_to_modul a', 'a.*', array('md5(a.id_siswa_to_modul)'=>$this->uri->segment(3)))->row();
-        if($this->uri->segment(4)==''){
+        if($this->uri->segment(4)=='1'){
             $data['parent'] = 'master';
             $data['child'] = 'member';
-            $data['tanda'] = 'detail_data_anggota/'.md5($getdata->id_modul);
+            $data['tanda'] = 'detail_data_anggota/'.md5($getdata->user_id);
         }else{
             $data['parent'] = 'modul_ujian';
             $data['child'] = 'master_modul';
-            $data['tanda'] = 'detail_modul/'.md5($getdata->user_id);
+            $data['tanda'] = 'detail_modul/'.md5($getdata->id_modul);
         }
 		
         $data['grand_child'] = '';
-        $data['soal'] = $this->Main_model->getSelectedData('soal a', 'a.*,c.jawaban AS pilihan_jawaban,c.keyakinan_1,c.alasan,c.keyakinan_2', array('b.id_modul'=>$getdata->id_modul), '', '', '', '', array(
+        $data['soal'] = $this->Main_model->getSelectedData('soal a', 'a.*,c.jawaban AS pilihan_jawaban,c.keyakinan_1,c.alasan,c.keyakinan_2,c.jawaban_matching_1,c.jawaban_matching_2,c.jawaban_matching_3,c.jawaban_matching_4,c.jawaban_matching_5', array('b.id_modul'=>$getdata->id_modul,'md5(c.id_siswa_to_modul)'=>$this->uri->segment(3)), 'b.nomor_soal ASC', '', '', '', array(
             array(
                 'table' => 'soal_to_modul b',
                 'on' => 'a.id_soal=b.id_soal',
@@ -34,8 +35,19 @@ class Report extends CI_Controller {
 		$this->load->view('admin/report/detail_jawaban_ujian',$data);
 		$this->load->view('admin/template/footer');
     }
+    public function cetak_hasil_ujian()
+    {
+        $data['data_utama'] = $this->Main_model->getSelectedData('modul a', 'a.*', array('md5(a.id_modul)'=>$this->uri->segment(3)))->row();
+        $data['data_ujian'] = $this->Main_model->getSelectedData('siswa_to_modul a', 'b.nama,a.*', array('md5(a.id_modul)'=>$this->uri->segment(3)), '', '', '', '', array(
+            'table' => 'siswa b',
+            'on' => 'a.id_siswa=b.id_siswa',
+            'pos' => 'LEFT'
+        ))->result();
+        $this->load->view('admin/report/excel_hasil_ujian',$data);
+    }
     /* Other Function */
-    public function ajax_page(){
+    public function ajax_page()
+    {
 		if($this->input->post('modul')=='daftar_soal_dalam_modul'){
 			$data['soal'] = $this->Main_model->getSelectedData('soal_to_modul a', 'b.*,a.id_soal_to_modul', array('md5(a.id_modul)'=>$this->input->post('data')), '', '', '', '', array(
 				'table' => 'soal b',
@@ -63,7 +75,8 @@ class Report extends CI_Controller {
             $this->load->view('admin/report/ajax_page/form_daftar_ujian_pengguna',$data);
         }
 	}
-	public function ajax_function(){
+    public function ajax_function()
+    {
 		
 	}
 }

@@ -123,6 +123,8 @@ $route['admin_side/hapus_modul/(:any)'] = 'admin/Master/hapus_modul/$1';
 
 $route['admin_side/detail_jawaban_ujian/(:any)/(:any)'] = 'admin/Report/detail_jawaban_ujian/$1/$2';
 
+$route['admin_side/cetak_hasil_ujian/(:any)'] = 'admin/Report/cetak_hasil_ujian/$1';
+
 /* Siswa */
 $route['member_side/beranda'] = 'member/App/home';
 $route['member_side/tentang_aplikasi'] = 'member/App/about';

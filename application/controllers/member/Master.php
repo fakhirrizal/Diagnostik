@@ -140,7 +140,7 @@ class Master extends CI_Controller {
 					if($cek->status=='0'){
 						$this->load->view('member/master/instruksi_ujian',$data);
 					}else{
-						$data['soal'] = $this->Main_model->getSelectedData('soal a', 'a.*,b.id_soal_to_modul', array('b.id_modul'=>$cek->id_modul), '', '', '', '', array(
+						$data['soal'] = $this->Main_model->getSelectedData('soal a', 'a.*,b.id_soal_to_modul', array('b.id_modul'=>$cek->id_modul), 'b.nomor_soal ASC', '', '', '', array(
 							'table' => 'soal_to_modul b',
 							'on' => 'a.id_soal=b.id_soal',
 							'pos' => 'RIGHT'
@@ -158,6 +158,22 @@ class Master extends CI_Controller {
 				echo "<script>window.location='".base_url('member_side/master_modul')."'</script>";
 			}
 		}
+	}
+	public function cek_jawaban_matching($id_soal,$key){
+		$get_data = $this->Main_model->getSelectedData('soal a', 'a.*', array('a.id_soal'=>$id_soal))->row();
+		$jawaban = '';
+		if($key=='a' OR $key=='A'){
+			$jawaban = $get_data->random_pilihan_1;
+		}elseif($key=='b' OR $key=='B'){
+			$jawaban = $get_data->random_pilihan_2;
+		}elseif($key=='c' OR $key=='C'){
+			$jawaban = $get_data->random_pilihan_3;
+		}elseif($key=='d' OR $key=='D'){
+			$jawaban = $get_data->random_pilihan_4;
+		}elseif($key=='e' OR $key=='E'){
+			$jawaban = $get_data->random_pilihan_5;
+		}else{echo'';}
+		return $jawaban;
 	}
 	public function simpan_jawaban(){
 		$get_data_ujian = $this->Main_model->getSelectedData('siswa_to_modul a', 'a.*,b.nama,bb.judul', array('a.id_siswa_to_modul'=>$this->input->post('identity')), '', '', '', '', array(
@@ -182,10 +198,43 @@ class Master extends CI_Controller {
 		$nilai = 0;
 		$string_param = '';
 		$param1 = '';
-		if($this->input->post('jwb')==$this->input->post('jawaban')){
-			$param1 = '1';
+		if($this->input->post('id_kategori_soal')=='0'){
+			if($this->input->post('jwb')==$this->input->post('jawaban')){
+				$param1 = '1';
+			}else{
+				$param1 = '0';
+			}
 		}else{
-			$param1 = '0';
+			$cek_jawaban_1 = $this->cek_jawaban_matching($this->input->post('soal'),$this->input->post('jawaban_matching_1'));
+			if($cek_jawaban_1==$this->input->post('jawaban_1')){
+				$param1 = '1';
+				$cek_jawaban_2 = $this->cek_jawaban_matching($this->input->post('soal'),$this->input->post('jawaban_matching_2'));
+				if($cek_jawaban_2==$this->input->post('jawaban_2')){
+					$param1 = '1';
+					$cek_jawaban_3 = $this->cek_jawaban_matching($this->input->post('soal'),$this->input->post('jawaban_matching_3'));
+					if($cek_jawaban_3==$this->input->post('jawaban_3')){
+						$param1 = '1';
+						$cek_jawaban_4 = $this->cek_jawaban_matching($this->input->post('soal'),$this->input->post('jawaban_matching_4'));
+						if($cek_jawaban_4==$this->input->post('jawaban_4')){
+							$param1 = '1';
+							$cek_jawaban_5 = $this->cek_jawaban_matching($this->input->post('soal'),$this->input->post('jawaban_matching_5'));
+							if($cek_jawaban_5==$this->input->post('jawaban_5')){
+								$param1 = '1';
+							}else{
+								$param1 = '0';
+							}
+						}else{
+							$param1 = '0';
+						}
+					}else{
+						$param1 = '0';
+					}
+				}else{
+					$param1 = '0';
+				}
+			}else{
+				$param1 = '0';
+			}
 		}
 		$param2 = '';
 		if($this->input->post('alasan')==$this->input->post('alasan_benar')){
@@ -222,6 +271,11 @@ class Master extends CI_Controller {
 				'id_soal_to_modul' => $this->input->post('soal_to_modul'),
 				'id_soal' => $this->input->post('soal'),
 				'jawaban' => $this->input->post('jwb'),
+				'jawaban_matching_1' => $this->input->post('jawaban_matching_1'),
+				'jawaban_matching_2' => $this->input->post('jawaban_matching_2'),
+				'jawaban_matching_3' => $this->input->post('jawaban_matching_3'),
+				'jawaban_matching_4' => $this->input->post('jawaban_matching_4'),
+				'jawaban_matching_5' => $this->input->post('jawaban_matching_5'),
 				'keyakinan_1' => $this->input->post('radio_yakin_jawaban'),
 				'alasan' => $this->input->post('alasan'),
 				'keyakinan_2' => $this->input->post('radio_yakin_alasan'),
@@ -278,6 +332,11 @@ class Master extends CI_Controller {
 				'id_soal_to_modul' => $this->input->post('soal_to_modul'),
 				'id_soal' => $this->input->post('soal'),
 				'jawaban' => $this->input->post('jwb'),
+				'jawaban_matching_1' => $this->input->post('jawaban_matching_1'),
+				'jawaban_matching_2' => $this->input->post('jawaban_matching_2'),
+				'jawaban_matching_3' => $this->input->post('jawaban_matching_3'),
+				'jawaban_matching_4' => $this->input->post('jawaban_matching_4'),
+				'jawaban_matching_5' => $this->input->post('jawaban_matching_5'),
 				'keyakinan_1' => $this->input->post('radio_yakin_jawaban'),
 				'alasan' => $this->input->post('alasan'),
 				'keyakinan_2' => $this->input->post('radio_yakin_alasan'),
@@ -357,20 +416,64 @@ class Master extends CI_Controller {
 		$soal_terjawab = 0;
 
 		foreach ($get_data_soal as $key => $value) {
-			$get_data_jawaban = $this->Main_model->getSelectedData('detail_ujian bb', 'bb.jawaban AS pilihan_jawaban,bb.keyakinan_1,bb.alasan,bb.keyakinan_2,bb.nilai', array('md5(bb.id_siswa_to_modul)'=>$this->uri->segment(3),'bb.id_soal_to_modul'=>$value->id_soal_to_modul))->row();
+			$get_data_jawaban = $this->Main_model->getSelectedData('detail_ujian bb', 'bb.jawaban AS pilihan_jawaban,bb.jawaban_matching_1,bb.jawaban_matching_2,bb.jawaban_matching_3,bb.jawaban_matching_4,bb.jawaban_matching_5,bb.keyakinan_1,bb.alasan,bb.keyakinan_2,bb.nilai', array('md5(bb.id_siswa_to_modul)'=>$this->uri->segment(3),'bb.id_soal_to_modul'=>$value->id_soal_to_modul))->row();
 			$total_skor += $get_data_jawaban->nilai;
-			if($get_data_jawaban->pilihan_jawaban==NULL){
-				$soal_kosong++;
-			}else{
+			if($get_data_jawaban->pilihan_jawaban!=NULL OR $get_data_jawaban->jawaban_matching_1!=NULL){
 				$soal_terjawab++;
+			}else{
+				$soal_kosong++;
 			}
 			$string_param = '';
 			$param1 = '';
-			if($get_data_jawaban->pilihan_jawaban==$value->jawaban){
-				$param1 = '1';
+			// if($get_data_jawaban->pilihan_jawaban==$value->jawaban){
+			// 	$param1 = '1';
+			// }else{
+			// 	$param1 = '0';
+			// }
+
+
+
+			if($value->id_kategori_soal=='0'){
+				if($get_data_jawaban->pilihan_jawaban==$value->jawaban){
+					$param1 = '1';
+				}else{
+					$param1 = '0';
+				}
 			}else{
-				$param1 = '0';
+				$cek_jawaban_1 = $this->cek_jawaban_matching($value->id_soal,$get_data_jawaban->jawaban_matching_1);
+				if($cek_jawaban_1==$value->jawaban_1){
+					$param1 = '1';
+					$cek_jawaban_2 = $this->cek_jawaban_matching($value->id_soal,$get_data_jawaban->jawaban_matching_2);
+					if($cek_jawaban_2==$value->jawaban_2){
+						$param1 = '1';
+						$cek_jawaban_3 = $this->cek_jawaban_matching($value->id_soal,$get_data_jawaban->jawaban_matching_3);
+						if($cek_jawaban_3==$value->jawaban_3){
+							$param1 = '1';
+							$cek_jawaban_4 = $this->cek_jawaban_matching($value->id_soal,$get_data_jawaban->jawaban_matching_4);
+							if($cek_jawaban_4==$value->jawaban_4){
+								$param1 = '1';
+								$cek_jawaban_5 = $this->cek_jawaban_matching($value->id_soal,$get_data_jawaban->jawaban_matching_5);
+								if($cek_jawaban_5==$value->jawaban_5){
+									$param1 = '1';
+								}else{
+									$param1 = '0';
+								}
+							}else{
+								$param1 = '0';
+							}
+						}else{
+							$param1 = '0';
+						}
+					}else{
+						$param1 = '0';
+					}
+				}else{
+					$param1 = '0';
+				}
 			}
+
+
+
 			$param2 = '';
 			if($get_data_jawaban->alasan==$value->alasan_benar){
 				$param2 = '1';

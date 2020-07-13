@@ -30,23 +30,23 @@
 			<span class="profile-desc-text"> Jln. Moh. Kahfi 1 No. 88C Jagakarsa, Jakarta Selatan - Indonesia. </span>
 			<div class="margin-top-20 profile-desc-link">
 				<i class="fa fa-phone"></i>
-				<a href="#">+6221 788903387</a>
+				<a href="javascript:void(0)">+6221 788903387</a>
 			</div>
 			<div class="margin-top-20 profile-desc-link">
 				<i class="fa fa-envelope"></i>
-				<a href="#">info@indoguard.co.id</a>
+				<a href="javascript:void(0)">info@indoguard.co.id</a>
 			</div>
 			<div class="margin-top-20 profile-desc-link">
 				<i class="fa fa-globe"></i>
-				<a href="#">https://indoguard.co.id/</a>
+				<a href="javascript:void(0)">https://indoguard.co.id/</a>
 			</div>
 			<div class="margin-top-20 profile-desc-link">
 				<i class="fa fa-twitter"></i>
-				<a href="#">@ICKcorp</a>
+				<a href="javascript:void(0)">@ICKcorp</a>
 			</div>
 			<div class="margin-top-20 profile-desc-link">
 				<i class="fa fa-facebook"></i>
-				<a href="#">Indoguardika Cipta Kreasi</a>
+				<a href="javascript:void(0)">Indoguardika Cipta Kreasi</a>
 			</div>
 		</div>
 	</div> -->

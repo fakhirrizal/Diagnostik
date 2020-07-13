@@ -172,7 +172,7 @@
 				<!-- <h2>Sign in</h2>
 				<p class="hint-text">Sign in with your social media account</p> -->
 				<div class="social-btn text-center">
-					<!-- <a href="#" class="btn btn-danger btn-lg" title="Google"><i class="fa fa-google"></i></a> -->
+					<!-- <a href="javascript:void(0)" class="btn btn-danger btn-lg" title="Google"><i class="fa fa-google"></i></a> -->
 					<img src="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" width='50%'>
 					<br><br><p><font size="5">Selamat Datang  !!!</font></p><hr>
 				</div>
@@ -186,7 +186,7 @@
 				<div class="form-group">
 					<button type="submit" class="btn btn-info btn-lg btn-block signup-btn">Masuk</button>
 				</div>
-				<div class="text-center small"><a href="#">Lupa Kata Sandi?</a></div>
+				<div class="text-center small"><a href="javascript:void(0)">Lupa Kata Sandi?</a></div>
 				<div class="text-center"><hr>© Copyright 2020, All Right Reserved
 				<br>Created by </div>
 			</form>

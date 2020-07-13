@@ -753,13 +753,15 @@ class Master extends CI_Controller {
 	}
 	public function simpan_soal(){
 		$this->db->trans_start();
+        $get_last_id = $this->Main_model->getLastID('soal','id_soal');
+        $get_last_id_soal = $get_last_id['id_soal']+1;
 		$img = '';
 		$nmfile = "file_".time();
 		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/soal/';
-		$config['allowed_types'] = 'jpg|png|jpeg|bmp'; // type yang dapat diakses bisa anda sesuaikan
-		$config['max_size'] = '3072'; // maksimum besar file 3M
-		$config['max_width']  = '5000'; // lebar maksimum 5000 px
-		$config['max_height']  = '5000'; // tinggi maksimu 5000 px
+		$config['allowed_types'] = 'jpg|png|jpeg|bmp';
+		$config['max_size'] = '3072';
+		$config['max_width']  = '5000';
+		$config['max_height']  = '5000';
 		$config['file_name'] = $nmfile;
 
 		$this->upload->initialize($config);
@@ -776,23 +778,65 @@ class Master extends CI_Controller {
 				$img = $gbr['file_name'];
 			}
 		}else{echo'';}
-		$data_insert_1 = array(
-			'image' => $img,
-			'pertanyaan' => $this->input->post('isi'),
-			'pilihan_1' => $this->input->post('1'),
-			'pilihan_2' => $this->input->post('2'),
-			'pilihan_3' => $this->input->post('3'),
-			'pilihan_4' => $this->input->post('4'),
-			'pilihan_5' => $this->input->post('5'),
-			'jawaban' => $this->input->post('answer'),
-			'alasan_1' => $this->input->post('a'),
-			'alasan_2' => $this->input->post('b'),
-			'alasan_3' => $this->input->post('c'),
-			'alasan_4' => $this->input->post('d'),
-			'alasan_5' => $this->input->post('e'),
-			'alasan_benar' => $this->input->post('alesan')
-		);
+		if($this->input->post('kategori_soal')=='0'){
+			$data_insert_1 = array(
+                'id_soal' => $get_last_id_soal,
+				'id_kategori_soal' => $this->input->post('kategori_soal'),
+				'image' => $img,
+				'pertanyaan' => $this->input->post('isi'),
+				'pilihan_1' => $this->input->post('1'),
+				'pilihan_2' => $this->input->post('2'),
+				'pilihan_3' => $this->input->post('3'),
+				'pilihan_4' => $this->input->post('4'),
+				'pilihan_5' => $this->input->post('5'),
+				'jawaban' => $this->input->post('answer'),
+				'alasan_1' => $this->input->post('a'),
+				'alasan_2' => $this->input->post('b'),
+				'alasan_3' => $this->input->post('c'),
+				'alasan_4' => $this->input->post('d'),
+				'alasan_5' => $this->input->post('e'),
+				'alasan_benar' => $this->input->post('alesan')
+			);
+		}else{
+			$data_insert_1 = array(
+                'id_soal' => $get_last_id_soal,
+				'id_kategori_soal' => $this->input->post('kategori_soal'),
+				'image' => $img,
+				'pertanyaan' => $this->input->post('isi'),
+				'pilihan_1' => $this->input->post('1'),
+				'pilihan_2' => $this->input->post('2'),
+				'pilihan_3' => $this->input->post('3'),
+				'pilihan_4' => $this->input->post('4'),
+				'pilihan_5' => $this->input->post('5'),
+				'jawaban_1' => $this->input->post('jawaban_1'),
+				'jawaban_2' => $this->input->post('jawaban_2'),
+				'jawaban_3' => $this->input->post('jawaban_3'),
+				'jawaban_4' => $this->input->post('jawaban_4'),
+				'jawaban_5' => $this->input->post('jawaban_5'),
+				'alasan_1' => $this->input->post('a'),
+				'alasan_2' => $this->input->post('b'),
+				'alasan_3' => $this->input->post('c'),
+				'alasan_4' => $this->input->post('d'),
+				'alasan_5' => $this->input->post('e'),
+				'alasan_benar' => $this->input->post('alesan')
+			);
+		}
 		$this->Main_model->insertData('soal',$data_insert_1);
+		if($this->input->post('kategori_soal')=='1'){
+			$tampung = array();
+			$tampung[] = $this->input->post('jawaban_1');
+			$tampung[] = $this->input->post('jawaban_2');
+			$tampung[] = $this->input->post('jawaban_3');
+			$tampung[] = $this->input->post('jawaban_4');
+			$tampung[] = $this->input->post('jawaban_5');
+			$saring = array_filter($tampung);
+			shuffle($saring);
+			$random_pilihan = 1;
+			for ($i=0; $i < count($saring); $i++) { 
+				$this->Main_model->updateData('soal',array('random_pilihan_'.$random_pilihan => $saring[$i]),array('id_soal'=>$get_last_id_soal));
+				$random_pilihan++;
+			}
+		}else{echo'';}
 		$this->Main_model->log_activity($this->session->userdata('id'),'Adding data',"Menambahkan data soal",$this->session->userdata('location'));
 		$this->db->trans_complete();
 		if($this->db->trans_status() === false){
@@ -837,22 +881,59 @@ class Master extends CI_Controller {
 				$this->Main_model->updateData('soal',array('image'=>$gbr['file_name']),array('md5(id_soal)'=>$this->input->post('id')));
 			}
 		}else{echo'';}
-		$data_insert_1 = array(
-			'pertanyaan' => $this->input->post('isi'),
-			'pilihan_1' => $this->input->post('1'),
-			'pilihan_2' => $this->input->post('2'),
-			'pilihan_3' => $this->input->post('3'),
-			'pilihan_4' => $this->input->post('4'),
-			'pilihan_5' => $this->input->post('5'),
-			'jawaban' => $this->input->post('answer'),
-			'alasan_1' => $this->input->post('a'),
-			'alasan_2' => $this->input->post('b'),
-			'alasan_3' => $this->input->post('c'),
-			'alasan_4' => $this->input->post('d'),
-			'alasan_5' => $this->input->post('e'),
-			'alasan_benar' => $this->input->post('alesan')
-		);
+		if($this->input->post('kategori_soal')=='0'){
+			$data_insert_1 = array(
+				'pertanyaan' => $this->input->post('isi'),
+				'pilihan_1' => $this->input->post('1'),
+				'pilihan_2' => $this->input->post('2'),
+				'pilihan_3' => $this->input->post('3'),
+				'pilihan_4' => $this->input->post('4'),
+				'pilihan_5' => $this->input->post('5'),
+				'jawaban' => $this->input->post('answer'),
+				'alasan_1' => $this->input->post('a'),
+				'alasan_2' => $this->input->post('b'),
+				'alasan_3' => $this->input->post('c'),
+				'alasan_4' => $this->input->post('d'),
+				'alasan_5' => $this->input->post('e'),
+				'alasan_benar' => $this->input->post('alesan')
+			);
+		}else{
+			$data_insert_1 = array(
+				'pertanyaan' => $this->input->post('isi'),
+				'pilihan_1' => $this->input->post('1'),
+				'pilihan_2' => $this->input->post('2'),
+				'pilihan_3' => $this->input->post('3'),
+				'pilihan_4' => $this->input->post('4'),
+				'pilihan_5' => $this->input->post('5'),
+				'jawaban_1' => $this->input->post('jawaban_1'),
+				'jawaban_2' => $this->input->post('jawaban_2'),
+				'jawaban_3' => $this->input->post('jawaban_3'),
+				'jawaban_4' => $this->input->post('jawaban_4'),
+				'jawaban_5' => $this->input->post('jawaban_5'),
+				'alasan_1' => $this->input->post('a'),
+				'alasan_2' => $this->input->post('b'),
+				'alasan_3' => $this->input->post('c'),
+				'alasan_4' => $this->input->post('d'),
+				'alasan_5' => $this->input->post('e'),
+				'alasan_benar' => $this->input->post('alesan')
+			);
+		}
 		$this->Main_model->updateData('soal',$data_insert_1,array('md5(id_soal)'=>$this->input->post('id')));
+		if($this->input->post('kategori_soal')=='1'){
+			$tampung = array();
+			$tampung[] = $this->input->post('jawaban_1');
+			$tampung[] = $this->input->post('jawaban_2');
+			$tampung[] = $this->input->post('jawaban_3');
+			$tampung[] = $this->input->post('jawaban_4');
+			$tampung[] = $this->input->post('jawaban_5');
+			$saring = array_filter($tampung);
+			shuffle($saring);
+			$random_pilihan = 1;
+			for ($i=0; $i < count($saring); $i++) { 
+				$this->Main_model->updateData('soal',array('random_pilihan_'.$random_pilihan => $saring[$i]),array('md5(id_soal)'=>$this->input->post('id')));
+				$random_pilihan++;
+			}
+		}else{echo'';}
 		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data soal (".$this->input->post('judul').")",$this->session->userdata('location'));
 		$this->db->trans_complete();
 		if($this->db->trans_status() === false){
@@ -923,7 +1004,7 @@ class Master extends CI_Controller {
 			$return_on_click = "return confirm('Anda yakin?')";
 			$if_hapus = '';
 			if($value->locked=='1'){
-				$if_hapus = '<a href="#">';
+				$if_hapus = '<a href="javascript:void(0)">';
 			}else{
 				$if_hapus = '<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_modul/'.md5($value->id_modul)).'">';
 			}
@@ -1148,10 +1229,15 @@ class Master extends CI_Controller {
 		$id = '';
 		$nama = '';
 		$get_data = $this->Main_model->getSelectedData('modul a', 'a.*',array('md5(a.id_modul)'=>$this->uri->segment(3)))->row();
+		$get_soal = $this->Main_model->getSelectedData('soal_to_modul a', 'a.*',array('md5(a.id_modul)'=>$this->uri->segment(3)))->result();
 		$id = md5($get_data->id_modul);
 		$nama = $get_data->judul;
 
 		$this->Main_model->updateData('modul',array('locked'=>'1'),array('md5(id_modul)'=>$this->uri->segment(3)));
+		$nomor_soal = 1;
+		foreach ($get_soal as $key => $value) {
+			$this->Main_model->updateData('soal_to_modul',array('nomor_soal'=>$nomor_soal++),array('id_soal_to_modul'=>$value->id_soal_to_modul));
+		}
 
 		$this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Memperbarui data modul (".$nama.")",$this->session->userdata('location'));
 		$this->db->trans_complete();
@@ -1193,7 +1279,7 @@ class Master extends CI_Controller {
 			$data['soal'] = $this->Main_model->getSelectedData('soal a', 'a.*',array('md5(a.id_kategori_soal)'=>$this->input->post('data'),'a.deleted'=>'0'))->result();
 			$this->load->view('admin/master/ajax_page/tabel_soal_berdasarkan_kategori',$data);
 		}elseif($this->input->post('modul')=='daftar_soal_dalam_modul'){
-			$data['soal'] = $this->Main_model->getSelectedData('soal_to_modul a', 'b.*,a.id_soal_to_modul', array('md5(a.id_modul)'=>$this->input->post('data')), '', '', '', '', array(
+			$data['soal'] = $this->Main_model->getSelectedData('soal_to_modul a', 'b.*,a.id_soal_to_modul', array('md5(a.id_modul)'=>$this->input->post('data')), 'a.nomor_soal ASC', '', '', '', array(
 				'table' => 'soal b',
 				'on' => 'a.id_soal=b.id_soal',
 				'pos' => 'LEFT'
@@ -1210,6 +1296,29 @@ class Master extends CI_Controller {
 			$data['id_mod'] = $this->input->post('data');
 			$data['daftar_siswa'] = $this->Main_model->getSelectedData('siswa a', 'a.*')->result();
 			$this->load->view('admin/master/ajax_page/form_daftar_peserta_ujian',$data);
+		}elseif($this->input->post('modul')=='get_form_soal_by_kategori'){
+			$data = '';
+			if($this->input->post('id')=='1'){
+				$this->load->view('admin/master/ajax_page/master_soal_matching',$data);
+			}else{
+				$this->load->view('admin/master/ajax_page/master_soal_pilgan',$data);
+			}
+		}elseif($this->input->post('modul')=='detail_modul'){
+			$data['soal'] = $this->Main_model->getSelectedData('soal_to_modul a', 'b.*,a.id_soal_to_modul', array('md5(a.id_modul)'=>$this->input->post('data')), 'a.nomor_soal ASC', '', '', '', array(
+				'table' => 'soal b',
+				'on' => 'a.id_soal=b.id_soal',
+				'pos' => 'LEFT'
+			))->result();
+			$data['id_mod'] = $this->input->post('data');
+			$data['daftar_soal'] = $this->Main_model->getSelectedData('soal a', 'a.*', array('a.deleted'=>'0'))->result();
+			$data['data_utama'] = $this->Main_model->getSelectedData('modul a', 'a.*',array('md5(a.id_modul)'=>$this->input->post('data')))->row();
+			$data['siswa'] = $this->Main_model->getSelectedData('siswa_to_modul a', 'b.*,a.id_siswa_to_modul', array('md5(a.id_modul)'=>$this->input->post('data')), '', '', '', '', array(
+				'table' => 'siswa b',
+				'on' => 'a.id_siswa=b.id_siswa',
+				'pos' => 'LEFT'
+			))->result();
+			$data['daftar_siswa'] = $this->Main_model->getSelectedData('siswa a', 'a.*')->result();
+			$this->load->view('admin/master/ajax_page/detail_modul',$data);
 		}
 	}
 	public function ajax_function(){

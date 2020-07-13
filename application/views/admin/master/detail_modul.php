@@ -65,7 +65,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td> </td>
+                                        <td><a href="<?= base_url().'admin_side/cetak_hasil_ujian/'.$this->uri->segment(3); ?>" class="btn btn-info" role="button"><i class="fa fa-print"></i> Cetak Hasil Ujian</a></td>
                                         <td> </td>
                                         <td> </td>
                                     </tr>

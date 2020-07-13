@@ -68,7 +68,7 @@
             <!-- Text -->
             <p class="card-text fa-sm"><?= $value->isi; ?></p>
             <!-- Button -->
-            <a href="#" class="">Lihat</a>
+            <a href="javascript:void(0)" class="">Lihat</a>
 
           </div>
 
@@ -103,7 +103,7 @@
         <!-- Text -->
         <p class="card-text fa-sm"><?= $value->isi; ?></p>
         <!-- Button -->
-        <a href="#" class="">Lihat</a>
+        <a href="javascript:void(0)" class="">Lihat</a>
 
       </div>
     </div>

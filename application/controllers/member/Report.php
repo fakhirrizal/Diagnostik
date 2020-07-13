@@ -9,7 +9,7 @@ class Report extends CI_Controller {
     public function ajax_page(){
 		if($this->input->post('modul')=='tabel_soal_dalam_ujian'){
             $getdata = $this->Main_model->getSelectedData('siswa_to_modul a', 'a.*', array('md5(a.id_siswa_to_modul)'=>$this->input->post('data')))->row();
-			$data['soal'] = $this->Main_model->getSelectedData('soal a', 'a.*,c.jawaban AS pilihan_jawaban,c.keyakinan_1,c.alasan,c.keyakinan_2', array('b.id_modul'=>$getdata->id_modul), '', '', '', '', array(
+			$data['soal'] = $this->Main_model->getSelectedData('soal a', 'a.*,c.jawaban AS pilihan_jawaban,c.keyakinan_1,c.alasan,c.keyakinan_2,c.jawaban_matching_1,c.jawaban_matching_2,c.jawaban_matching_3,c.jawaban_matching_4,c.jawaban_matching_5', array('b.id_modul'=>$getdata->id_modul,'md5(c.id_siswa_to_modul)'=>$this->input->post('data')), 'b.nomor_soal ASC', '', '', '', array(
                 array(
                     'table' => 'soal_to_modul b',
                     'on' => 'a.id_soal=b.id_soal',

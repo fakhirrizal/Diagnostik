@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Main_model extends CI_Model{
-	function getSelectedData($tbl_name, $select = '', $where = '', $order = '', $limit = '', $start = '0', $group = '', $join = '') {
+	function getSelectedData($tbl_name, $select = '', $where = '', $order = '', $limit = '', $start = '0', $group = '', $join = '')
+	{
 		if (!empty($select))
 			$this->db->select($select, false);
 		if (!empty($where))
@@ -29,19 +30,129 @@ class Main_model extends CI_Model{
 
 		return $this->db->get($tbl_name);
 	}
-	// function manualQuery($q)
-	// 	{
-	// 		return $this->db->query($q)->result();
-	// 	}
-	function insertData($table,$data){
+	function cek_jawaban_matching($id_soal,$poin_matching,$jawaban)
+	{
+		$balikan = '';
+		$get_soal = $this->getSelectedData('soal a','a.*',array('a.id_soal'=>$id_soal))->row();
+		$jawaban_benar = '';
+		if($poin_matching=='1'){
+			$jawaban_benar = $get_soal->jawaban_1;
+		}elseif($poin_matching=='2'){
+			$jawaban_benar = $get_soal->jawaban_2;
+		}elseif($poin_matching=='3'){
+			$jawaban_benar = $get_soal->jawaban_3;
+		}elseif($poin_matching=='4'){
+			$jawaban_benar = $get_soal->jawaban_4;
+		}elseif($poin_matching=='5'){
+			$jawaban_benar = $get_soal->jawaban_5;
+		}else{
+			echo'';
+		}
+		$value_jawaban = '';
+		if($jawaban=='A' OR $jawaban=='a'){
+			$value_jawaban = $get_soal->random_pilihan_1;
+		}elseif($jawaban=='B' OR $jawaban=='b'){
+			$value_jawaban = $get_soal->random_pilihan_2;
+		}elseif($jawaban=='C' OR $jawaban=='c'){
+			$value_jawaban = $get_soal->random_pilihan_3;
+		}elseif($jawaban=='D' OR $jawaban=='d'){
+			$value_jawaban = $get_soal->random_pilihan_4;
+		}elseif($jawaban=='E' OR $jawaban=='e'){
+			$value_jawaban = $get_soal->random_pilihan_5;
+		}else{
+			echo'';
+		}
+		if($value_jawaban==$jawaban_benar){
+			$balikan = '(<b>Benar</b>)';
+		}else{
+			if($poin_matching=='1'){
+				if($get_soal->jawaban_1==$get_soal->random_pilihan_1){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>A</b>)';
+				}elseif($get_soal->jawaban_1==$get_soal->random_pilihan_2){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>B</b>)';
+				}elseif($get_soal->jawaban_1==$get_soal->random_pilihan_3){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>C</b>)';
+				}elseif($get_soal->jawaban_1==$get_soal->random_pilihan_4){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>D</b>)';
+				}elseif($get_soal->jawaban_1==$get_soal->random_pilihan_5){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>E</b>)';
+				}else{
+					echo'';
+				}
+			}elseif($poin_matching=='2'){
+				if($get_soal->jawaban_2==$get_soal->random_pilihan_1){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>A</b>)';
+				}elseif($get_soal->jawaban_2==$get_soal->random_pilihan_2){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>B</b>)';
+				}elseif($get_soal->jawaban_2==$get_soal->random_pilihan_3){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>C</b>)';
+				}elseif($get_soal->jawaban_2==$get_soal->random_pilihan_4){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>D</b>)';
+				}elseif($get_soal->jawaban_2==$get_soal->random_pilihan_5){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>E</b>)';
+				}else{
+					echo'';
+				}
+			}elseif($poin_matching=='3'){
+				if($get_soal->jawaban_3==$get_soal->random_pilihan_1){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>A</b>)';
+				}elseif($get_soal->jawaban_3==$get_soal->random_pilihan_2){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>B</b>)';
+				}elseif($get_soal->jawaban_3==$get_soal->random_pilihan_3){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>C</b>)';
+				}elseif($get_soal->jawaban_3==$get_soal->random_pilihan_4){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>D</b>)';
+				}elseif($get_soal->jawaban_3==$get_soal->random_pilihan_5){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>E</b>)';
+				}else{
+					echo'';
+				}
+			}elseif($poin_matching=='4'){
+				if($get_soal->jawaban_4==$get_soal->random_pilihan_1){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>A</b>)';
+				}elseif($get_soal->jawaban_4==$get_soal->random_pilihan_2){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>B</b>)';
+				}elseif($get_soal->jawaban_4==$get_soal->random_pilihan_3){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>C</b>)';
+				}elseif($get_soal->jawaban_4==$get_soal->random_pilihan_4){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>D</b>)';
+				}elseif($get_soal->jawaban_4==$get_soal->random_pilihan_5){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>E</b>)';
+				}else{
+					echo'';
+				}
+			}elseif($poin_matching=='5'){
+				if($get_soal->jawaban_5==$get_soal->random_pilihan_1){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>A</b>)';
+				}elseif($get_soal->jawaban_5==$get_soal->random_pilihan_2){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>B</b>)';
+				}elseif($get_soal->jawaban_5==$get_soal->random_pilihan_3){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>C</b>)';
+				}elseif($get_soal->jawaban_5==$get_soal->random_pilihan_4){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>D</b>)';
+				}elseif($get_soal->jawaban_5==$get_soal->random_pilihan_5){
+					$balikan = '(<b>Salah</b>, jawaban benar adalah <b>E</b>)';
+				}else{
+					echo'';
+				}
+			}else{
+				echo'';
+			}
+		}
+		return $balikan;
+	}
+	function insertData($table,$data)
+	{
 		$res = $this->db->insert($table,$data);
 		return $res;
 		}
-	function cleanData($table){
+	function cleanData($table)
+	{
 		$q = $this->db->query("TRUNCATE TABLE $table");
 		return $q;
 	}
-	function getAlldata($table){
+	function getAlldata($table)
+	{
 		return $this->db->get($table)->result();
 	}
 	function updateData($table,$data,$field_key)
@@ -52,7 +163,8 @@ class Main_model extends CI_Model{
 	{
 		$this->db->delete($table,$data);
 	}
-	function log_activity($user_id,$activity_type,$activity_data,$location = ''){
+	function log_activity($user_id,$activity_type,$activity_data,$location = '')
+	{
 		$device = '';
 		if ($this->agent->is_browser()){
 			$device = 'PC';
@@ -74,10 +186,12 @@ class Main_model extends CI_Model{
 		);
 		$this->insertData('activity_logs',$activity_log);
 	}
-	function getLastID($table,$column){
+	function getLastID($table,$column)
+	{
 		return $this->db->query('SELECT '.$column.' FROM '.$table.' ORDER BY '.$column.' DESC LIMIT 1')->row_array();
 	}
-	function convert_tanggal($tanggalan){
+	function convert_tanggal($tanggalan)
+	{
 		$tanggal_tampil = '';
 		$waktu = explode('-', $tanggalan);
 		if ($waktu[1]=="01") {
@@ -107,7 +221,8 @@ class Main_model extends CI_Model{
 		}
 		return $tanggal_tampil;
 	}
-	public function convert_hari($date){
+	public function convert_hari($date)
+	{
 		$daftar_hari = array(
 			'Sunday' => 'Minggu',
 			'Monday' => 'Senin',

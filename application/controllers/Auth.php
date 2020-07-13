@@ -5,37 +5,28 @@ class Auth extends CI_Controller {
 
 	public function login()
 	{
-		if(($this->session->userdata('id'))==NULL){
-			$this->load->view('auth/login');
-		}else{
-			if($this->session->userdata('from')=='mobile'){
-				redirect('mobile_side/beranda');
-			}else{
-				$cek = $this->Main_model->getSelectedData('user_to_role a', 'a.role_id,b.route', array('a.user_id'=>$this->session->userdata('id'),'b.deleted'=>'0'), "",'','','',array(
-					'table' => 'user_role b',
-					'on' => 'a.role_id=b.id',
-					'pos' => 'LEFT'
-				))->result();
-				if($cek!=NULL){
-					foreach ($cek as $key => $value) {
-						if($value->role_id==NULL){
-						// if($value->role_id=='0' OR $value->role_id=='1'){
-							redirect($value->route);
-						}
-						else{
-							$this->session->sess_destroy();
-							$this->session->set_flashdata('error','<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: justify;">
-														<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-														<strong>Ups! </strong>Akun Anda tidak dikenali sistem.
-													</div>' );
-							echo "<script>window.location='".base_url('login')."'</script>";
-						}
-					}
+		$cek = $this->Main_model->getSelectedData('user_to_role a', 'a.role_id,b.route', array('a.user_id'=>$this->session->userdata('id'),'b.deleted'=>'0'), "",'','','',array(
+			'table' => 'user_role b',
+			'on' => 'a.role_id=b.id',
+			'pos' => 'LEFT'
+		))->result();
+		if($cek!=NULL){
+			foreach ($cek as $key => $value) {
+				if($value->role_id!=NULL){
+					redirect($value->route);
 				}
 				else{
-					$this->load->view('auth/login');
+					$this->session->sess_destroy();
+					$this->session->set_flashdata('error','<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: justify;">
+												<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<strong>Ups! </strong>Akun Anda tidak dikenali sistem.
+											</div>' );
+					echo "<script>window.location='".base_url()."'</script>";
 				}
 			}
+		}
+		else{
+			$this->load->view('auth/login');
 		}
 	}
 	public function login_process(){

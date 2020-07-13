@@ -49,10 +49,10 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="shortcut icon" href="<?= site_url(); ?>assets/icon.png" /> </head>
     <!-- END HEAD -->
 
-    <body class=" login">
+    <body class=" login" onload="getLocation()">
         <!-- BEGIN LOGO -->
         <div class="logo">
-            <a href="#">
+            <a href="javascript:void(0)">
                 <!-- <img src="<?=base_url('assets/pages/img/wkw.png');?>" style="height: 60px;" alt="" /> </a> -->
         </div>
         <!-- END LOGO -->

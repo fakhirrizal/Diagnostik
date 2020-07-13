@@ -65,7 +65,7 @@ $get_profile = $this->Main_model->getSelectedData('user a', '*', array("a.id" =>
 								<?php
 									$data_notif = 0;
 								?>
-								<a href="#" class="dropdown-toggle" title="Notifikasi">
+								<a href="javascript:void(0)" class="dropdown-toggle" title="Notifikasi">
 								</a>
 							</li>
 							<li class="dropdown dropdown-user dropdown-dark">
@@ -154,7 +154,7 @@ $get_profile = $this->Main_model->getSelectedData('user a', '*', array("a.id" =>
 						<div class="page-toolbar">
 							<!-- BEGIN THEME PANEL -->
 							<div class="btn-group btn-theme-panel">
-								<!-- <a href="#" title="Setting Informasi Aplikasi" class="btn dropdown-toggle" >
+								<!-- <a href="javascript:void(0)" title="Setting Informasi Aplikasi" class="btn dropdown-toggle" >
 									<i class="icon-settings"></i>
 								</a> -->
 								<script type="text/javascript">function startTime(){var today=new Date(),curr_hour=today.getHours(),curr_min=today.getMinutes(),curr_sec=today.getSeconds();curr_hour=checkTime(curr_hour);curr_min=checkTime(curr_min);curr_sec=checkTime(curr_sec);document.getElementById('clock').innerHTML=curr_hour+":"+curr_min+":"+curr_sec;}function checkTime(i){if(i<10){i="0"+i;}return i;}setInterval(startTime,500);</script>

@@ -32,6 +32,96 @@
 						if(isset($data_utama)){
 							foreach($data_utama as $row)
 							{
+								$get_jumlah_soal_paham_konsep = $this->Main_model->getSelectedData('detail_ujian a', 'a.*,b.nomor_soal', array('a.id_siswa_to_modul'=>$row->id_siswa_to_modul,'a.nilai'=>'5'), 'b.nomor_soal ASC', '', '', '', array(
+									'table' => 'soal_to_modul b',
+									'on' => 'a.id_soal_to_modul=b.id_soal_to_modul',
+									'pos' => 'LEFT'
+								))->result();
+								$get_jumlah_soal_kurang_paham_konsep = $this->Main_model->getSelectedData('detail_ujian a', 'a.*,b.nomor_soal', array('a.id_siswa_to_modul'=>$row->id_siswa_to_modul,'a.nilai'=>'4'), 'b.nomor_soal ASC', '', '', '', array(
+									'table' => 'soal_to_modul b',
+									'on' => 'a.id_soal_to_modul=b.id_soal_to_modul',
+									'pos' => 'LEFT'
+								))->result();
+								$get_jumlah_soal_false_positive = $this->Main_model->getSelectedData('detail_ujian a', 'a.*,b.nomor_soal', array('a.id_siswa_to_modul'=>$row->id_siswa_to_modul,'a.nilai'=>'3'), 'b.nomor_soal ASC', '', '', '', array(
+									'table' => 'soal_to_modul b',
+									'on' => 'a.id_soal_to_modul=b.id_soal_to_modul',
+									'pos' => 'LEFT'
+								))->result();
+								$get_jumlah_soal_false_negative = $this->Main_model->getSelectedData('detail_ujian a', 'a.*,b.nomor_soal', array('a.id_siswa_to_modul'=>$row->id_siswa_to_modul,'a.nilai'=>'2'), 'b.nomor_soal ASC', '', '', '', array(
+									'table' => 'soal_to_modul b',
+									'on' => 'a.id_soal_to_modul=b.id_soal_to_modul',
+									'pos' => 'LEFT'
+								))->result();
+								$get_jumlah_soal_miskonsepsi = $this->Main_model->getSelectedData('detail_ujian a', 'a.*,b.nomor_soal', array('a.id_siswa_to_modul'=>$row->id_siswa_to_modul,'a.nilai'=>'1'), 'b.nomor_soal ASC', '', '', '', array(
+									'table' => 'soal_to_modul b',
+									'on' => 'a.id_soal_to_modul=b.id_soal_to_modul',
+									'pos' => 'LEFT'
+								))->result();
+								$get_jumlah_soal_tidak_paham_konsep = $this->Main_model->getSelectedData('detail_ujian a', 'a.*,b.nomor_soal', array('a.id_siswa_to_modul'=>$row->id_siswa_to_modul,'a.nilai'=>'0'), 'b.nomor_soal ASC', '', '', '', array(
+									'table' => 'soal_to_modul b',
+									'on' => 'a.id_soal_to_modul=b.id_soal_to_modul',
+									'pos' => 'LEFT'
+								))->result();
+								$tampil_soal_paham_konsep = '';
+								$tampung_soal_paham_konsep = array();
+								foreach ($get_jumlah_soal_paham_konsep as $key => $kolom) {
+									$tampung_soal_paham_konsep[] = $kolom->nomor_soal;
+								}
+								if($get_jumlah_soal_paham_konsep==NULL){
+									echo'';
+								}else{
+									$tampil_soal_paham_konsep = ' ('.implode(',',$tampung_soal_paham_konsep).')';
+								}
+								$tampil_soal_kurang_paham_konsep = '';
+								$tampung_soal_kurang_paham_konsep = array();
+								foreach ($get_jumlah_soal_kurang_paham_konsep as $key => $kolom) {
+									$tampung_soal_kurang_paham_konsep[] = $kolom->nomor_soal;
+								}
+								if($get_jumlah_soal_kurang_paham_konsep==NULL){
+									echo'';
+								}else{
+									$tampil_soal_kurang_paham_konsep = ' ('.implode(',',$tampung_soal_kurang_paham_konsep).')';
+								}
+								$tampil_soal_false_positive = '';
+								$tampung_soal_false_positive = array();
+								foreach ($get_jumlah_soal_false_positive as $key => $kolom) {
+									$tampung_soal_false_positive[] = $kolom->nomor_soal;
+								}
+								if($get_jumlah_soal_false_positive==NULL){
+									echo'';
+								}else{
+									$tampil_soal_false_positive = ' ('.implode(',',$tampung_soal_false_positive).')';
+								}
+								$tampil_soal_false_negative = '';
+								$tampung_soal_false_negative = array();
+								foreach ($get_jumlah_soal_false_negative as $key => $kolom) {
+									$tampung_soal_false_negative[] = $kolom->nomor_soal;
+								}
+								if($get_jumlah_soal_false_negative==NULL){
+									echo'';
+								}else{
+									$tampil_soal_false_negative = ' ('.implode(',',$tampung_soal_false_negative).')';
+								}
+								$tampil_soal_miskonsepsi = '';
+								$tampung_soal_miskonsepsi = array();
+								foreach ($get_jumlah_soal_miskonsepsi as $key => $kolom) {
+									$tampung_soal_miskonsepsi[] = $kolom->nomor_soal;
+								}
+								if($get_jumlah_soal_miskonsepsi==NULL){
+									echo'';
+								}else{
+									$tampil_soal_miskonsepsi = ' ('.implode(',',$tampung_soal_miskonsepsi).')';
+								}
+								$tampil_soal_tidak_paham_konsep = '';
+								$tampung_soal_tidak_paham_konsep = array();
+								foreach ($get_jumlah_soal_tidak_paham_konsep as $key => $kolom) {
+									$tampung_soal_tidak_paham_konsep[] = $kolom->nomor_soal;
+								}
+								if($get_jumlah_soal_tidak_paham_konsep==NULL){
+									echo'';
+								}else{
+									$tampil_soal_tidak_paham_konsep = ' ('.implode(',',$tampung_soal_tidak_paham_konsep).')';
+								}
 						?>
 								<div class="col-md-6">
 									<table class="table">
@@ -80,32 +170,32 @@
                                             <tr>
 												<td> Paham Konsep </td>
 												<td> : </td>
-												<td><?php echo $row->paham_konsep.' Soal'; ?></td>
+												<td><?php echo $row->paham_konsep.' Soal'.$tampil_soal_paham_konsep; ?></td>
                                             </tr>
                                             <tr>
 												<td> Kurang Paham Konsep </td>
 												<td> : </td>
-												<td><?php echo $row->kurang_paham_konsep.' Soal'; ?></td>
+												<td><?php echo $row->kurang_paham_konsep.' Soal'.$tampil_soal_kurang_paham_konsep; ?></td>
                                             </tr>
                                             <tr>
 												<td> False Positive </td>
 												<td> : </td>
-												<td><?php echo $row->false_positive.' Soal'; ?></td>
+												<td><?php echo $row->false_positive.' Soal'.$tampil_soal_false_positive; ?></td>
                                             </tr>
                                             <tr>
 												<td> False Negative </td>
 												<td> : </td>
-												<td><?php echo $row->false_negative.' Soal'; ?></td>
+												<td><?php echo $row->false_negative.' Soal'.$tampil_soal_false_negative; ?></td>
                                             </tr>
                                             <tr>
 												<td> Miskonsepsi </td>
 												<td> : </td>
-												<td><?php echo $row->miskonsepsi.' Soal'; ?></td>
+												<td><?php echo $row->miskonsepsi.' Soal'.$tampil_soal_miskonsepsi; ?></td>
 											</tr>
 											<tr>
 												<td> Tidak Paham Konsep </td>
 												<td> : </td>
-												<td><?php echo $row->tidak_paham_konsep.' Soal'; ?></td>
+												<td><?php echo $row->tidak_paham_konsep.' Soal'.$tampil_soal_tidak_paham_konsep; ?></td>
                                             </tr>
 											<tr>
 												<td> </td>

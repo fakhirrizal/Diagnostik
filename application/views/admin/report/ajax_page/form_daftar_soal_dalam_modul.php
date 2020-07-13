@@ -37,26 +37,43 @@
                                 <img src='<?= base_url().'data_upload/soal/'.$value->image; ?>' width='100%' />
                                 <br>
                                 <br>
-                                <?php } ?>
-                                <?php
-                                if($value->pilihan_1!=NULL){
-                                    echo'<p><b>A</b>           '.$value->pilihan_1.'</p>';
-                                }
-                                if($value->pilihan_2!=NULL){
-                                    echo'<p><b>B</b>           '.$value->pilihan_2.'</p>';
-                                }
-                                if($value->pilihan_3!=NULL){
-                                    echo'<p><b>C</b>           '.$value->pilihan_3.'</p>';
-                                }
-                                if($value->pilihan_4!=NULL){
-                                    echo'<p><b>D</b>           '.$value->pilihan_4.'</p>';
-                                }
-                                if($value->pilihan_5!=NULL){
-                                    echo'<p><b>E</b>           '.$value->pilihan_5.'</p>';
-                                }
+                                <?php }
+                                if($value->id_kategori_soal=='1'){
+                                    if($value->pilihan_1!=NULL){
+                                        echo'<p>'.$value->pilihan_1.' &rarr; '.$value->jawaban_1.'</p>';
+                                    }
+                                    if($value->pilihan_2!=NULL){
+                                        echo'<p>'.$value->pilihan_2.' &rarr; '.$value->jawaban_2.'</p>';
+                                    }
+                                    if($value->pilihan_3!=NULL){
+                                        echo'<p>'.$value->pilihan_3.' &rarr; '.$value->jawaban_3.'</p>';
+                                    }
+                                    if($value->pilihan_4!=NULL){
+                                        echo'<p>'.$value->pilihan_4.' &rarr; '.$value->jawaban_4.'</p>';
+                                    }
+                                    if($value->pilihan_5!=NULL){
+                                        echo'<p>'.$value->pilihan_5.' &rarr; '.$value->jawaban_5.'</p>';
+                                    }
+                                }elseif($value->id_kategori_soal=='0'){
+                                    if($value->pilihan_1!=NULL){
+                                        echo'<p><b>A</b>           '.$value->pilihan_1.'</p>';
+                                    }
+                                    if($value->pilihan_2!=NULL){
+                                        echo'<p><b>B</b>           '.$value->pilihan_2.'</p>';
+                                    }
+                                    if($value->pilihan_3!=NULL){
+                                        echo'<p><b>C</b>           '.$value->pilihan_3.'</p>';
+                                    }
+                                    if($value->pilihan_4!=NULL){
+                                        echo'<p><b>D</b>           '.$value->pilihan_4.'</p>';
+                                    }
+                                    if($value->pilihan_5!=NULL){
+                                        echo'<p><b>E</b>           '.$value->pilihan_5.'</p>';
+                                    }
                                 ?>
                                 <hr>
                                 <p>Jawaban : <b><?= $value->jawaban; ?></b></p>
+                                <?php }else{echo'';} ?>
                             </div>
                         </div>
 					</div>

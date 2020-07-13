@@ -6,12 +6,6 @@ class App extends CI_Controller {
     function __construct() {
         parent::__construct();
 	}
-	public function launcher()
-	{
-		// $this->load->view('admin/template/header',$data);
-		$this->load->view('admin/app/launcher');
-		// $this->load->view('admin/template/footer');
-	}
     public function home()
 	{
 		$data['parent'] = 'home';
@@ -19,16 +13,6 @@ class App extends CI_Controller {
 		$data['grand_child'] = '';
 		$this->load->view('admin/template/header',$data);
 		$this->load->view('admin/app/home',$data);
-		$this->load->view('admin/template/footer');
-	}
-	public function menu()
-	{
-		$data['parent'] = 'menu';
-		$data['child'] = '';
-		$data['grand_child'] = '';
-		$data['clinic_center_menu'] = $this->Main_model->getSelectedData('menu a', '*', array("parent_id" => "", "a.app_key" => "clinic_center", "a.menu_status" => '1', 'deleted' => '0'), 'a.menu_order ASC','','','','')->result();
-		$this->load->view('admin/template/header',$data);
-		$this->load->view('admin/app/menu',$data);
 		$this->load->view('admin/template/footer');
 	}
 	public function log_activity()

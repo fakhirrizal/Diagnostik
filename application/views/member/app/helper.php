@@ -20,7 +20,7 @@
 					</p>
 					<button class="btn btn-white btn-default btn-round">
 							<i class="ace-icon fa fa-download"></i>
-							<a href="#">Unduh</a>
+							<a href="javascript:void(0)">Unduh</a>
 					</button>
 					<br>
 					<br>
