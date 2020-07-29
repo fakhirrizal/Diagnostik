@@ -166,12 +166,14 @@ class Main_model extends CI_Model{
 	function log_activity($user_id,$activity_type,$activity_data,$location = '')
 	{
 		$device = '';
-		if ($this->agent->is_browser()){
-			$device = 'PC';
-		}elseif ($this->agent->is_mobile()){
+		if ($this->agent->is_mobile()){
 			$device = $this->agent->mobile();
 		}else{
-			$device = '';
+			if ($this->agent->is_browser()){
+				$device = 'PC';
+			}else{
+				echo'';
+			}
 		}
 		$activity_log = array(
 			'user_id' => $user_id,
